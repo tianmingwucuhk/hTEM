@@ -69,10 +69,10 @@ NTSM <- scutilsR::RemoveAmbientRNAs(NTSM, split.by = "orig.ident", cluster.name 
 NTSM 
 head(NTSM@meta.data)
 
-qs::qsave(NTSM, file = 'output/01_output/NTSM_downstream_tmp_adjustment.qs')
+qs::qsave(NTSM, file = 'output/01_output/hTEM_v1_downstream_tmp_adjustment.qs')
 
 ##################batch correction and integration
-NTSM <- qs::qread(file = 'output/01_output/NTSM_downstream_tmp_adjustment.qs')
+NTSM <- qs::qread(file = 'output/01_output/hTEM_v1_downstream_tmp_adjustment.qs')
 
 ###remove doublets
 NTSM <- subset(NTSM,subset = DF.classifications=='Singlet')
@@ -126,14 +126,14 @@ FeaturePlot(NTSM, features = unique(GOI), pt.size = 0.2,reduction = 'umap.bbknn'
             ncol = 10, order = TRUE)
 dev.off()
 
-qs::qsave(NTSM, file = 'output/01_output/02_NTSM_downstream_RNA_nodoublets.qs')
-NTSM <- qs::qread(file = 'output/01_output/02_NTSM_downstream_RNA_nodoublets.qs')
+qs::qsave(NTSM, file = 'output/01_output/hTEM_v2_downstream_RNA_nodoublets.qs')
+NTSM <- qs::qread(file = 'output/01_output/hTEM_v2_downstream_RNA_nodoublets.qs')
 
 
 #####annotation
 ######
 
-NTSM <- qs::qread(file = 'output/01_output/02_NTSM_downstream_RNA_nodoublets.qs')
+NTSM <- qs::qread(file = 'output/01_output/hTEM_v2_downstream_RNA_nodoublets.qs')
 
 resolutions <- c(0.6,1,1.2,1.5,2.0,2.2,2.4)
 
@@ -165,8 +165,8 @@ FeaturePlot(NTSM, reduction = 'umap.bbknn',features = c('decontX_contamination')
 NTSM$celltype=Idents(NTSM)
 NTSM$celltype=as.character(NTSM$celltype)
 
-qs::qsave(NTSM, file = 'output/02_output/01_NTSM_annotation.qs')
-saveRDS(NTSM,file = 'output/02_output/01_NTSM_v1_annotation.rds')
+qs::qsave(NTSM, file = 'output/02_output/hTEM_v1_annotation.qs')
+saveRDS(NTSM,file = 'output/02_output/hTEM_v1_annotation.rds')
 
 NTSM <- qs::qread(file = 'output/02_output/01_NTSM_annotation.qs')
 
@@ -258,7 +258,7 @@ NTSM <- scutilsR::RemoveAmbientRNAs(NTSM, split.by = "orig.ident", cluster.name 
 NTSM 
 head(NTSM@meta.data)
 
-qs::qsave(NTSM, file = 'output/NTSM_downstream_tmp_adjustment.qs')
+qs::qsave(NTSM, file = 'output/hTEM_v1_downstream_tmp_adjustment.qs')
 
 ######batch correction and integration
 library(Seurat)
@@ -266,7 +266,7 @@ library(tidyverse)
 library(scutilsR)
 library(harmony)
 
-NTSM <- qs::qread(file = 'output/01_output/01_NTSM_downstream_tmp_adjustment.qs')
+NTSM <- qs::qread(file = 'output/01_output/hTEM_v1_downstream_tmp_adjustment.qs')
 
 # gene complexity score
 NTSM <- NTSM %>%
@@ -296,7 +296,7 @@ FeaturePlot(NTSM, features = unique(GOI), pt.size = 0.2,reduction = 'umap.harmon
             ncol = 10, order = TRUE)
 dev.off()
 
-qs::qsave(NTSM,file = 'output/01_output/v2_integration.qs')
+qs::qsave(NTSM,file = 'output/01_output/hTEM_v2_int_obj.qs')
 
 ###check markers
 NTSM2 <- qs::qread(file = 'output/01_output/02_v2_integration.qs')
@@ -341,14 +341,14 @@ NTSM <- FindClusters(NTSM, resolution = resolutions)
 DimPlot(NTSM, reduction = "umap.harmony", group.by = paste0("RNA_snn_res.", resolutions), ncol = 3, label = T) & NoLegend()
 ggsave(filename = 'v2_integration_clusters_harmony.tiff',width = 14,height =11,dpi = 300,path = 'output/01_output/Figures/')
 
-qs::qsave(NTSM,file = 'output/01_output/v2_integration.qs')
-saveRDS(NTSM,file='output/01_output/v2_integration.rds')
+qs::qsave(NTSM,file = 'output/01_output/hTEM_v2_int_obj.qs')
+saveRDS(NTSM,file='output/01_output/hTEM_v2_int_obj.rds')
 
 #
 DimPlot(NTSM,reduction = 'umap.harmony',split.by = 'orig.ident',group.by = 'orig.ident')
 
 ###############annotation##########
-hTLOV2=qs::qread(file = 'output/01_output/02_v2_integration.qs')
+hTLOV2=qs::qread(file = 'output/01_output/hTEM_v2_int_obj.qs')
 metadata <- read.csv(file = 'data/20250730_htlov2_metadata.csv',row.names = 1)
 
 m <- metadata[,c(25,26)]
@@ -402,10 +402,10 @@ ggsave(filename = 'output/01_output/03_v2_annotation/v2_dimplot.tiff',height =5.
 DimPlot(v2, reduction = "umap.harmony",split.by = 'orig.ident') +scale_color_manual(values = v2_Cell)
 ggsave(filename = 'output/01_output/03_v2_annotation/v2_dimplot_split.tiff',height =5.3,width = 17,dpi = 300 )
 
-qs::qsave(v2,file = 'output/01_output/03_v2_annotation/v2_annotation.qs')
+qs::qsave(v2,file = 'output/01_output/03_v2_annotation/hTEM_v2_int_obj.qs')
 
-v2 <- qs::qread(file = 'output/01_output/03_v2_annotation/v2_annotation.qs')
-saveRDS(v2, file = 'output/01_output/03_v2_annotation/v2_annotation.rds')
+v2 <- qs::qread(file = 'output/01_output/03_v2_annotation/hTEM_v2_int_obj.qs')
+saveRDS(v2, file = 'output/01_output/03_v2_annotation/hTEM_v2_int_obj.rds')
 metadata <- v2@meta.data
 write.csv(metadata,file = 'output/01_output/03_v2_annotation/v2_metadata.csv')
 
@@ -502,7 +502,7 @@ NTSM$quick_clusters <- clusters[rownames(NTSM@meta.data)]
 rm(seu.list)
 gc()
 v3 <- scutilsR::RemoveAmbientRNAs(v3, split.by = "orig.ident", cluster.name = "quick_clusters")
-qs::qsave(v3, file = 'output/NTSM_downstream_tmp_adjustment.qs')
+qs::qsave(v3, file = 'output/hTEM_v1_downstream_tmp_adjustment.qs')
 
 
 ##batch correction and integration
@@ -568,11 +568,11 @@ FeaturePlot(v3, features = unique(GOI), pt.size = 0.2,reduction = "umap.bbknn",
 dev.off()
 
 v3[["RNA"]]=NULL
-qs::qsave(v3, file = 'output/01_output/NTSM_downstream_decontX_nodoublets.qs')
+qs::qsave(v3, file = 'output/01_output/hTEM_v1_downstream_decontX_nodoublets.qs')
 
 
 ##annotation
-v3 <- qs::qread(file = 'output/01_output/NTSM_downstream_decontX_nodoublets.qs')
+v3 <- qs::qread(file = 'output/01_output/hTEM_v1_downstream_decontX_nodoublets.qs')
 
 resolutions <- c(1.2,1.4,1.6,1.8,2.0,2.4,2.8,3.0)
 
@@ -628,7 +628,7 @@ qs::qsave(v3, file = 'output/02_output/01_NTSM_integrated_decontX.qs')
 *************************02.V3_sublcuster*************************
 ******************************************************************
 
-v3 <- qs::qread(file = 'output/02_output/01_NTSM_integrated_decontX.qs')
+v3 <- qs::qread(file = 'output/02_output/hTEM_v3_int_obj.qs')
 Idents(v3)=v3$seurat_clusters
 #### neural tube ####
 ##anterior_to_posterior
@@ -950,7 +950,7 @@ source("R/TA/IO.R")
 source("R/TA/preprocess.R")
 
 #### Load data
-v3 <- qs::qread("output/02_output/01_NTSM_integrated_decontX.qs")
+v3 <- qs::qread("output/02_output/hTEM_v3_int_obj.qs")
 v3$celltype <- as.character(v3$celltype)
 v3$detailed_celltype <- as.character(v3$detailed_celltype)
 v3$detailed_celltype_2nd <-as.character(v3$detailed_celltype_2nd)
@@ -1030,8 +1030,8 @@ for (rd.name in Reductions(v3)) {
 
 v32[["pca"]]@feature.loadings <- matrix()
 
-SeuratDisk::SaveH5Seurat(v32, filename = "output/02_output/03_NTSM_decontX.h5Seurat", overwrite = TRUE)
-SeuratDisk::Convert("output/02_output/03_NTSM_decontX.h5Seurat", dest = "h5ad", overwrite = TRUE)
+SeuratDisk::SaveH5Seurat(v32, filename = "output/02_output/hTEM_v3_int_obj.h5Seurat", overwrite = TRUE)
+SeuratDisk::Convert("output/02_output/hTEM_v3_int_obj.h5Seurat", dest = "h5ad", overwrite = TRUE)
 
 
 #########pseudotime
@@ -1041,7 +1041,7 @@ v32 <- v3[rownames(v3[['RNA']]@scale.data),]
 DefaultAssay(v32) ='RNA'
 v32[['decontX']] <- NULL
 sceasy::convertFormat(v32, from = "seurat", to = "anndata", main_layer = "scale.data", 
-                      outFile = file.path('output/02_output/01_NTSM_scaled.h5ad'))
+                      outFile = file.path('output/02_output/hTEM_v3_scaled.h5ad'))
 
 ##NT
 NT_AP <- qs::qread(file = 'output/02_output/01_NT_AP.qs')
@@ -1739,7 +1739,7 @@ library(ggplot2)
 library(data.table)
 library(grid)
 
-srt <- readRDS("finalized_hTLO/01_NTSM_integrated_decontX_annotated_third_rctd.rds")
+srt <- readRDS("finalized_hTLO/hTEM_v3_int_obj_annotated_third_rctd.rds")
 
 Idents(combined.sct) <- "detailed_celltype"
 exprMat <- as.matrix(GetAssayData(combined.sct, assay = "decontX", slot = "data"))
@@ -1854,7 +1854,7 @@ library(ggplot2)
 library(data.table)
 library(grid)
 
-srt <- readRDS("finalized_hTLO/01_NTSM_integrated_decontX_annotated_third_rctd.rds")
+srt <- readRDS("finalized_hTLO/hTEM_v3_int_objannotated_third_rctd.rds")
 
 celltype_to_detailed_cluster <- c(
   "28" = "Notochord",

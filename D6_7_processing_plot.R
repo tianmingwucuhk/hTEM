@@ -82,11 +82,11 @@ qs::qsave(D6, file = 'output/D6_downstream.qs')
 ######integration##########
 ##
 D6_perturbation <- qs::qread(file = 'output/D6_downstream.qs')
-v3 <- qs::qread(file = 'data/01_NTSM_integrated_decontX.qs')
-v3_d6<-subset(v3, subset = orig.ident == 'NTSM-V4-D6')
+v3 <- qs::qread(file = 'data/hTEM_v3_int_obj.qs')
+v3_d6<-subset(v3, subset = orig.ident == 'hTEM_v3_day6')
 
 #fix cellid
-Newcellnames <- gsub('NTSM-V4-D6','v3-d6',colnames(v3_d6))
+Newcellnames <- gsub('hTEM_v3_day6','v3-d6',colnames(v3_d6))
 v3_d6 <- RenameCells(v3_d6, new.names = Newcellnames)
 v3_d6$orig.ident <- as.factor(v3_d6$orig.ident)
 v3_d6$orig.ident <- factor(v3_d6$orig.ident,labels = 'v3_d6')
@@ -215,10 +215,10 @@ qs::qsave(D7, file = 'output/D7_downstream.qs')
 
 ##Integration
 V1_V2 <- qs::qread(file = 'output/D7_downstream.qs')
-v3 <- qs::qread(file = '../../NTSM_project/NTSM_V4_TA/output/02_output/01_NTSM_integrated_decontX.qs')
-V3_D7<-subset(v3, subset = orig.ident == 'NTSM-V4-D7')
+v3 <- qs::qread(file = '../../NTSM_project/NTSM_V4_TA/output/02_output/hTEM_v3_int_obj.qs')
+V3_D7<-subset(v3, subset = orig.ident == 'hTEM_v3_day7')
 
-Newcellnames <- gsub('NTSM-V4-D7','v3-D7',colnames(V3_D7))
+Newcellnames <- gsub('hTEM_v3_day7','v3-D7',colnames(V3_D7))
 V3_D7 <- RenameCells(V3_D7, new.names = Newcellnames)
 V3_D7$orig.ident <- as.factor(V3_D7$orig.ident)
 V3_D7$orig.ident <- factor(V3_D7$orig.ident,labels = 'v3-D7')

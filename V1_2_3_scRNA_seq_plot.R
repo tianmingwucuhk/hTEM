@@ -824,7 +824,7 @@ data <- data.frame(
 )
 
 ##day3
-D3 <- subset(hTLOV3, subset = orig.ident == "NTSM-V4-D3")
+D3 <- subset(hTLOV3, subset = orig.ident == "hTEM_v3_day3")
 Expression <- FetchData(D3, vars = markers)
 
 NOTO <- sum(Expression$NOTO>0)
@@ -842,7 +842,7 @@ F1S <- sum(Expression$FOXA1>0 & Expression$SHH>0)
 data$D3 <- c('18','30','189','29','297','501','208','30','272','283','185')
 
 #day6
-D6 <- subset(hTLOV3, subset = orig.ident == "NTSM-V4-D6")
+D6 <- subset(hTLOV3, subset = orig.ident == "hTEM_v3_day6")
 Expression <- FetchData(D6, vars = markers)
 
 NOTO <- sum(Expression$NOTO>0)
@@ -2822,7 +2822,7 @@ library(patchwork)
 library(ggplot2)
 ######
 source('resource/color_map.R')
-NTSM <- qs::qread(file = 'output/02_output/01_NTSM_integrated_decontX.qs')
+NTSM <- qs::qread(file = 'output/02_output/hTEM_v3_int_obj.qs')
 
 
 c <- subset(NTSM,detailed_celltype_2nd %in% c('Notochord','NMP-Neural','NMP-Meso','pPSM','aPSM',
